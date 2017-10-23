@@ -1,0 +1,92 @@
+﻿<Window x:Class="GluttonousSnake.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GluttonousSnake"
+        mc:Ignorable="d"
+        Title="贪吃蛇" Height="630" Width="800" Icon="贪吃蛇.ico" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Background="Black" Deactivated="Window_Deactivated" Loaded="Window_Loaded">
+    <Grid ShowGridLines="True" Name="mainGrid" Opacity="{Binding ElementName=opacity,Path=Value}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <!--控制区-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="左：A、左键" Grid.Row="0" Foreground="White"/>
+                <Label Content="右：D、右键" Grid.Row="1" Foreground="White"/>
+                <Label Content="上：W、上键" Grid.Row="2" Foreground="White"/>
+                <Label Content="下：S、下键" Grid.Row="3" Foreground="White"/>
+                <Label Content="加速：R" Grid.Row="4" Foreground="White"/>
+                <Label Content="减速：E" Grid.Row="5" Foreground="White"/>
+                <Label Content="开始：Z" Grid.Row="6" Foreground="White"/>
+                <Label Content="暂停：X" Grid.Row="7" Foreground="White"/>
+                <Label Content="显示网格：Q" Grid.Row="8" Foreground="White"/>
+            </Grid>
+            <Button Name="startButton" Background="Black" Content="开始" Foreground="White" Click="start_Click" FontSize="30" 
+                    Focusable="False" ToolTip="快捷键：Z" Grid.Row="1"/>
+            <Button Name="stopButton" Content="暂停" Background="Black" Grid.Row="2" Foreground="White" Click="stop_Click" FontSize="30"
+                    Focusable="False" ToolTip="快捷键：X"/>
+            <CheckBox Name="showGridLinesCheckBox" Content="显示网格" Grid.Row="4" Background="Black" Foreground="White" FontSize="15"
+                      HorizontalAlignment="Center" Focusable="False" VerticalAlignment="Bottom"/>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Slider Name="opacity" Minimum="0.5" Maximum="1" Orientation="Vertical" Height="150" ToolTip="窗体透明度" Focusable="False"
+                        Margin="0 10" HorizontalAlignment="Center" Value="1"/>
+                <Slider Name="speedSlider" Minimum="400" Maximum="550" SmallChange="1" Value="100" Orientation="Vertical" Height="150" 
+                        ToolTip="速度" Grid.Column="1" HorizontalAlignment="Center" Focusable="False" Margin="0 10"/>
+            </Grid>
+        </Grid>
+        <Grid ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <!--游戏区-->
+            <Grid Name="gameGrid" ShowGridLines="{Binding ElementName=showGridLinesCheckBox,Path=IsChecked}">
+
+            </Grid>
+            <!--状态区-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="游戏状态：" Foreground="White" Grid.Column="0"/>
+                <Label Name="stateLabel" Foreground="White" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label Content="分数：" Foreground="White" Grid.Column="2"/>
+                <Label Name="scoreLabel" Foreground="White" Grid.Column="3" HorizontalAlignment="Left"/>
+                <Label Content="时间：" Foreground="White" Grid.Column="4"/>
+                <Label Name="timeLabel" Foreground="White" Grid.Column="5" HorizontalAlignment="Left"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
