@@ -44,9 +44,9 @@
                 <Label Content="暂停：X" Grid.Row="7" Foreground="White"/>
                 <Label Content="显示网格：Q" Grid.Row="8" Foreground="White"/>
             </Grid>
-            <Button Name="startButton" Background="Black" Content="开始" Foreground="White" Click="start_Click" FontSize="30" 
+            <Button Name="startButton" Background="Black" Content="开始" Foreground="White" Click="Start_Click" FontSize="30" 
                     Focusable="False" ToolTip="快捷键：Z" Grid.Row="1"/>
-            <Button Name="stopButton" Content="暂停" Background="Black" Grid.Row="2" Foreground="White" Click="stop_Click" FontSize="30"
+            <Button Name="stopButton" Content="暂停" Background="Black" Grid.Row="2" Foreground="White" Click="Stop_Click" FontSize="30"
                     Focusable="False" ToolTip="快捷键：X"/>
             <CheckBox Name="showGridLinesCheckBox" Content="显示网格" Grid.Row="4" Background="Black" Foreground="White" FontSize="15"
                       HorizontalAlignment="Center" Focusable="False" VerticalAlignment="Bottom"/>

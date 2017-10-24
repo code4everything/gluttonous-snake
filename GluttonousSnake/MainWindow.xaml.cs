@@ -50,22 +50,26 @@ namespace GluttonousSnake
         }
 
         #region 开始游戏
-        public void start()
+        public void Start()
         {
             snakeIndex.Clear();
             //初始化方向
             orientationList.Clear();
-            orientation = new List<int>();
-            orientation.Add(2);           //方向
-            orientation.Add(0);           //转折行
-            orientation.Add(0);           //转折列
+            orientation = new List<int>
+            {
+                2,           //方向
+                0,           //转折行
+                0           //转折列
+            };
 
             //初始化蛇
             gameGrid.Children.Clear();
             for (int i = 0; i < SIZE; i++)
             {
-                snake = new Rectangle();
-                snake.Fill = new SolidColorBrush(Colors.White);
+                snake = new Rectangle
+                {
+                    Fill = new SolidColorBrush(Colors.White)
+                };
                 //snake.Stroke = new SolidColorBrush(Colors.White);
                 //snake.StrokeThickness = 1;
                 //snake.Fill =new SolidColorBrush(Color.FromRgb((byte)color.Next(1, 256), (byte)color.Next(1, 256), (byte)color.Next(1, 256)));
@@ -90,7 +94,7 @@ namespace GluttonousSnake
         #endregion
 
         #region 暂停游戏
-        public void stop()
+        public void Stop()
         {
             if (stopButton.Content.ToString() == "暂停")
             {
@@ -113,16 +117,16 @@ namespace GluttonousSnake
         #endregion
 
         #region 开始按钮
-        private void start_Click(object sender, RoutedEventArgs e)
+        private void Start_Click(object sender, RoutedEventArgs e)
         {
-            start();
+            Start();
         }
         #endregion
 
         #region 暂停按钮
-        private void stop_Click(object sender, RoutedEventArgs e)
+        private void Stop_Click(object sender, RoutedEventArgs e)
         {
-            stop();
+            Stop();
         }
         #endregion
 
@@ -131,7 +135,7 @@ namespace GluttonousSnake
         {
             if (snakeTimer.IsEnabled)
             {
-                stop();
+                Stop();
             }
         }
         #endregion
@@ -151,27 +155,31 @@ namespace GluttonousSnake
                 gameGrid.RowDefinitions.Add(new RowDefinition());
             }
             //加载游戏线程
-            snakeTimer = new DispatcherTimer();
-            snakeTimer.Interval = TimeSpan.FromMilliseconds(600 - speedSlider.Value);
-            snakeTimer.Tick += snakeTimer_Tick;
+            snakeTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(600 - speedSlider.Value)
+            };
+            snakeTimer.Tick += SnakeTimer_Tick;
 
-            this.KeyDown += new KeyEventHandler(game_KeyDown);
+            this.KeyDown += new KeyEventHandler(Game_KeyDown);
             InputMethod.SetIsInputMethodEnabled(this, false);
             stopButton.IsEnabled = false;
             snakeTimer.IsEnabled = false;
             stateLabel.Content = "未开始";
 
             //食物线程
-            foodTimer = new DispatcherTimer();
-            foodTimer.Interval = snakeTimer.Interval;
-            foodTimer.Tick += foodTimer_Tick;
+            foodTimer = new DispatcherTimer
+            {
+                Interval = snakeTimer.Interval
+            };
+            foodTimer.Tick += FoodTimer_Tick;
         }
         #endregion
 
         #region 游戏运行中
-        public void snakeTimer_Tick(object sender, EventArgs e)
+        public void SnakeTimer_Tick(object sender, EventArgs e)
         {
-            if (isGameOver())
+            if (IsGameOver())
             {
                 stateLabel.Content = "已结束";
                 foodTimer.Stop();
@@ -288,7 +296,7 @@ namespace GluttonousSnake
         #endregion
 
         #region 键盘操作
-        public void game_KeyDown(object sender, KeyEventArgs e)
+        public void Game_KeyDown(object sender, KeyEventArgs e)
         {
             orientationIndex = orientationList.Count - 1;
             //下
@@ -298,7 +306,7 @@ namespace GluttonousSnake
                 {
                     return;
                 }
-                addDirection(4);
+                AddDirection(4);
             }
             //上
             else if (canPlay && (e.Key == Key.Up || e.Key == Key.W))
@@ -307,7 +315,7 @@ namespace GluttonousSnake
                 {
                     return;
                 }
-                addDirection(3);
+                AddDirection(3);
             }
             //左
             else if (canPlay && (e.Key == Key.Left || e.Key == Key.A))
@@ -316,7 +324,7 @@ namespace GluttonousSnake
                 {
                     return;
                 }
-                addDirection(1);
+                AddDirection(1);
             }
             //右
             else if (canPlay && (e.Key == Key.Right || e.Key == Key.D))
@@ -325,17 +333,17 @@ namespace GluttonousSnake
                 {
                     return;
                 }
-                addDirection(2);
+                AddDirection(2);
             }
             //start
             else if (e.Key == Key.Z)
             {
-                start();
+                Start();
             }
             //stop
             else if (stopButton.IsEnabled && e.Key == Key.X)
             {
-                stop();
+                Stop();
             }
             //加速
             else if (e.Key == Key.R)
@@ -363,14 +371,16 @@ namespace GluttonousSnake
         #endregion
 
         #region 增加方向
-        public void addDirection(int direction)
+        public void AddDirection(int direction)
         {
             snakeHead = snakeIndex.Count - 1;
-            orientation = new List<int>();
-            orientation.Add(direction);
-            orientation.Add(Grid.GetRow(gameGrid.Children[snakeHead]));
-            orientation.Add(Grid.GetColumn(gameGrid.Children[snakeHead]));
-            orientation.Add(snakeHead);
+            orientation = new List<int>
+            {
+                direction,
+                Grid.GetRow(gameGrid.Children[snakeHead]),
+                Grid.GetColumn(gameGrid.Children[snakeHead]),
+                snakeHead
+            };
             orientationList[orientationIndex].RemoveAt(orientationList[orientationIndex].LastIndexOf(snakeHead));
             orientationList.Add(orientation);
             //防止频繁按键
@@ -379,7 +389,7 @@ namespace GluttonousSnake
         #endregion
 
         #region 检测游戏是否结束
-        public bool isGameOver()
+        public bool IsGameOver()
         {
             snakeHead = snakeIndex.Count - 1;
             bool over = (Grid.GetRow(gameGrid.Children[snakeHead]) == 0 && orientationList[orientationList.Count - 1][0] == 3)
@@ -406,14 +416,16 @@ namespace GluttonousSnake
         #endregion
 
         #region 食物线程
-        public void foodTimer_Tick(object sender, EventArgs e)
+        public void FoodTimer_Tick(object sender, EventArgs e)
         {
             foodTimer.Interval = snakeTimer.Interval;
             //创建食物
             if (foodEat)
             {
-                snake = new Rectangle();
-                snake.Fill = new SolidColorBrush(Colors.White);
+                snake = new Rectangle
+                {
+                    Fill = new SolidColorBrush(Colors.White)
+                };
                 //snake.Stroke = new SolidColorBrush(Colors.White);
                 //snake.StrokeThickness = 1;
                 //snake.Fill = new SolidColorBrush(Color.FromRgb((byte)color.Next(1, 256), (byte)color.Next(1, 256), (byte)color.Next(1, 256)));
